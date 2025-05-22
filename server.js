@@ -1,28 +1,40 @@
-const Database = require('better-sqlite3');
-const db = new Database('datenbank.db');
+const express = require('express');
+const http = require('http');
+const path = require('path');
+const socketIo = require('socket.io');
+const db = require('./db');  // dein Datenbankmodul
 
-// Tabelle erstellen (wenn nicht vorhanden)
-db.prepare(`
-  CREATE TABLE IF NOT EXISTS eintraege (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    code TEXT NOT NULL,
-    gefuehl TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-  )
-`).run();
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-function saveGefuehl(code, gefuehl) {
-  const timestamp = new Date().toISOString();
-  const stmt = db.prepare('INSERT INTO eintraege (code, gefuehl, timestamp) VALUES (?, ?, ?)');
-  stmt.run(code, gefuehl, timestamp);
-}
+const PORT = process.env.PORT;  // Wichtig: Nur process.env.PORT ohne Default!
 
-function getAllGefuehle() {
-  const stmt = db.prepare('SELECT code, gefuehl, timestamp FROM eintraege ORDER BY timestamp DESC');
-  return stmt.all();
-}
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
-module.exports = {
-  saveGefuehl,
-  getAllGefuehle
-};
+// POST-Route, wenn Kind ein Gefühl abschickt
+app.post('/submit', (req, res) => {
+  const { code, gefuehl } = req.body;
+  if (!code || !gefuehl) {
+    return res.status(400).json({ error: 'Code und Gefühlswert erforderlich' });
+  }
+
+  db.saveGefuehl(code, gefuehl);
+
+  const daten = db.getAllGefuehle();
+  io.emit('update', daten);
+
+  res.json({ success: true });
+});
+
+// GET-Route für Lehrkraft, um Daten abzurufen
+app.get('/data', (req, res) => {
+  const daten = db.getAllGefuehle();
+  res.json(daten);
+});
+
+// Server startet und hört auf Port von Render
+server.listen(PORT, () => {
+  console.log('✅ Server läuft auf Port:', PORT);
+});

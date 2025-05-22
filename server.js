@@ -1,44 +1,28 @@
-const express = require('express');
-const http = require('http');
-const path = require('path');
-const socketIo = require('socket.io');
-const db = require('./db');
+const Database = require('better-sqlite3');
+const db = new Database('datenbank.db');
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
+// Tabelle erstellen (wenn nicht vorhanden)
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS eintraege (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL,
+    gefuehl TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+  )
+`).run();
 
-const PORT = process.env.PORT || 3000;
+function saveGefuehl(code, gefuehl) {
+  const timestamp = new Date().toISOString();
+  const stmt = db.prepare('INSERT INTO eintraege (code, gefuehl, timestamp) VALUES (?, ?, ?)');
+  stmt.run(code, gefuehl, timestamp);
+}
 
-// Statische Dateien bereitstellen (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
+function getAllGefuehle() {
+  const stmt = db.prepare('SELECT code, gefuehl, timestamp FROM eintraege ORDER BY timestamp DESC');
+  return stmt.all();
+}
 
-// POST /submit – Wenn ein Kind sein Gefühl abschickt
-app.post('/submit', async (req, res) => {
-  const { code, gefuehl } = req.body;
-
-  if (!code || !gefuehl) {
-    return res.status(400).json({ error: 'Code und Gefühlswert erforderlich' });
-  }
-
-  await db.saveGefuehl(code, gefuehl);
-  const daten = await db.getAllGefuehle();
-
-  // an alle Admin-Clients senden
-  io.emit('update', daten);
-
-  res.json({ success: true });
-});
-
-// GET /data – Admin ruft aktuelle Daten ab
-app.get('/data', async (req, res) => {
-  const daten = await db.getAllGefuehle();
-  res.json(daten);
-});
-
-// Server starten
-server.listen(PORT, () => {
-  console.log(`Server läuft auf http://localhost:${PORT}`);
-});
-
+module.exports = {
+  saveGefuehl,
+  getAllGefuehle
+};

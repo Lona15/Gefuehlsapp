@@ -48,14 +48,38 @@ if (document.getElementById('liste')) {
     function zeigeDaten(daten) {
       const tabelle = document.getElementById('liste');
       tabelle.innerHTML = '';
-  
+    
+      const codesMarkiert = new Set(); // Zum Merken, welche Codes schon markiert sind
+    
       daten.forEach((eintrag) => {
+        // Prüfen, ob Code schon markiert wurde
+        const istLetzter = !codesMarkiert.has(eintrag.code);
+    
+        if (istLetzter) {
+          codesMarkiert.add(eintrag.code);
+        }
+    
         const tr = document.createElement('tr');
+    
+        // CSS-Klasse für Hervorhebung nur beim letzten Eintrag je Code
+        tr.className = istLetzter ? 'highlight' : '';
+    
+        const zeit = new Date(eintrag.timestamp).toLocaleString('de-DE', {
+          timeZone: 'Europe/Berlin',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        });
+    
         tr.innerHTML = `
           <td>${eintrag.code}</td>
           <td>${eintrag.gefuehl}</td>
-          <td>${new Date(eintrag.timestamp).toLocaleTimeString()}</td>
+          <td>${zeit}</td>
         `;
+    
         tabelle.appendChild(tr);
       });
     }

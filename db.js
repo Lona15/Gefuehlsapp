@@ -34,9 +34,8 @@ function saveGefuehl(code, gefuehl) {
 function getAllGefuehle() {
   return new Promise((resolve, reject) => {
     const sql = `
-      SELECT code, gefuehl, MAX(timestamp) as timestamp
+      SELECT code, gefuehl, timestamp
       FROM gefuehle
-      GROUP BY code
       ORDER BY timestamp DESC
     `;
 

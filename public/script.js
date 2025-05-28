@@ -92,4 +92,17 @@ if (document.getElementById('liste')) {
       zeigeDaten(daten);
     });
   }
+    // Event-Listener für "Alle löschen"-Button
+    const resetButton = document.getElementById('resetButton');
+    if (resetButton) {
+      resetButton.addEventListener('click', () => {
+        const bestaetigt = confirm('Möchtest du wirklich ALLE Einträge löschen?');
+  
+        if (!bestaetigt) return;
+  
+        fetch('/reset', { method: 'DELETE' })
+          .then(res => res.json())
+          .then(() => ladeDaten()); // Nach dem Löschen neu laden
+      });
+    }
   

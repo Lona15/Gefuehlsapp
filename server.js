@@ -41,3 +41,16 @@ app.get('/data', async (req, res) => {
 server.listen(PORT, () => {
   console.log(`Server läuft auf http://localhost:${PORT}`);
 });
+
+// DELETE /reset – löscht alle Einträge
+app.delete('/reset', async (req, res) => {
+  try {
+    await db.clearAllGefuehle();
+    const daten = await db.getAllGefuehle();
+    io.emit('update', daten); // Live-Update senden
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Fehler beim Löschen:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});

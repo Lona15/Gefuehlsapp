@@ -50,3 +50,18 @@ module.exports = {
   saveGefuehl,
   getAllGefuehle
 };
+
+function clearAllGefuehle() {
+  return new Promise((resolve, reject) => {
+    db.run('DELETE FROM gefuehle', [], function (err) {
+      if (err) return reject(err);
+      resolve();
+    });
+  });
+}
+
+module.exports = {
+  saveGefuehl,
+  getAllGefuehle,
+  clearAllGefuehle // neu!
+};

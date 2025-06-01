@@ -48,9 +48,26 @@ if (document.getElementById('liste')) {
     function zeigeDaten(daten) {
       const tabelle = document.getElementById('liste');
       tabelle.innerHTML = '';
-  
+    
+      // Nur die letzten Einträge je Code
+      const letzterEintragProCode = new Map();
+    
+      daten.forEach((eintrag) => {
+        if (
+          !letzterEintragProCode.has(eintrag.code) ||
+          new Date(eintrag.timestamp) > new Date(letzterEintragProCode.get(eintrag.code).timestamp)
+        ) {
+          letzterEintragProCode.set(eintrag.code, eintrag);
+        }
+      });
+    
       daten.forEach((eintrag) => {
         const tr = document.createElement('tr');
+    
+        // Prüfen ob es der neueste Eintrag für diesen Code ist
+        const istLetzter = letzterEintragProCode.get(eintrag.code) === eintrag;
+        if (istLetzter) tr.classList.add('highlight');
+    
         tr.innerHTML = `
           <td>${eintrag.code}</td>
           <td>${eintrag.gefuehl}</td>
@@ -62,13 +79,29 @@ if (document.getElementById('liste')) {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
-
           })}</td>
         `;
         tabelle.appendChild(tr);
       });
     }
-  
+    
+    // Einträge Löschen
+    function resetDaten() {
+      if (confirm('Willst du wirklich alle Einträge löschen?')) {
+        fetch('/reset', {
+          method: 'DELETE',
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              ladeDaten(); // Tabelle neu laden
+            } else {
+              alert('Fehler beim Löschen.');
+            }
+          });
+      }
+    }
+
     // Beim ersten Laden: aktuelle Daten holen
     ladeDaten();
   

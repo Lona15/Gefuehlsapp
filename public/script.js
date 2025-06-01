@@ -16,7 +16,7 @@ if (document.getElementById('gefuehlListe')) {
     function senden(gefuehl) {
       const code = document.getElementById('code').value.trim();
       if (!code) {
-        alert('Bitte gib deinen Zahlencode ein!');
+        alert('Bitte gib deinen Code ein!');
         return;
       }
   
@@ -30,7 +30,7 @@ if (document.getElementById('gefuehlListe')) {
           if (data.success) {
             alert('Danke! Dein Gefühl wurde gesendet.');
           } else {
-            alert('Fehler beim Senden.');
+            alert('Fehler beim senden. Überprüfe deinen Code.');
           }
         });
     }
@@ -48,38 +48,23 @@ if (document.getElementById('liste')) {
     function zeigeDaten(daten) {
       const tabelle = document.getElementById('liste');
       tabelle.innerHTML = '';
-    
-      const codesMarkiert = new Set(); // Zum Merken, welche Codes schon markiert sind
-    
+  
       daten.forEach((eintrag) => {
-        // Prüfen, ob Code schon markiert wurde
-        const istLetzter = !codesMarkiert.has(eintrag.code);
-    
-        if (istLetzter) {
-          codesMarkiert.add(eintrag.code);
-        }
-    
         const tr = document.createElement('tr');
-    
-        // CSS-Klasse für Hervorhebung nur beim letzten Eintrag je Code
-        tr.className = istLetzter ? 'highlight' : '';
-    
-        const zeit = new Date(eintrag.timestamp).toLocaleString('de-DE', {
-          timeZone: 'Europe/Berlin',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-        });
-    
         tr.innerHTML = `
           <td>${eintrag.code}</td>
           <td>${eintrag.gefuehl}</td>
-          <td>${zeit}</td>
+          <td>${new Date(eintrag.timestamp).toLocaleTimeString('de-DE', {
+            timeZone: 'Europe/Berlin',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+
+          })}</td>
         `;
-    
         tabelle.appendChild(tr);
       });
     }
@@ -92,17 +77,4 @@ if (document.getElementById('liste')) {
       zeigeDaten(daten);
     });
   }
-    // Event-Listener für "Alle löschen"-Button
-    const resetButton = document.getElementById('resetButton');
-    if (resetButton) {
-      resetButton.addEventListener('click', () => {
-        const bestaetigt = confirm('Möchtest du wirklich ALLE Einträge löschen?');
-  
-        if (!bestaetigt) return;
-  
-        fetch('/reset', { method: 'DELETE' })
-          .then(res => res.json())
-          .then(() => ladeDaten()); // Nach dem Löschen neu laden
-      });
-    }
   

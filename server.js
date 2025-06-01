@@ -1,3 +1,4 @@
+const validCodes = require('./codes.json').map(c => c.toUpperCase());
 const express = require('express');
 const http = require('http');
 const path = require('path');
@@ -22,7 +23,15 @@ app.post('/submit', async (req, res) => {
     return res.status(400).json({ error: 'Code und Gefühlswert erforderlich' });
   }
 
-  await db.saveGefuehl(code, gefuehl);
+  // Großschreibung vereinheitlichen
+  const upperCode = code.toUpperCase();
+
+  // Prüfen, ob der Code gültig ist
+  if (!validCodes.includes(upperCode)) {
+    return res.status(400).json({ error: 'Ungültiger Code' });
+  }
+
+  await db.saveGefuehl(upperCode, gefuehl);
   const daten = await db.getAllGefuehle();
 
   // an alle Admin-Clients senden
@@ -44,13 +53,8 @@ server.listen(PORT, () => {
 
 // DELETE /reset – löscht alle Einträge
 app.delete('/reset', async (req, res) => {
-  try {
-    await db.clearAllGefuehle();
-    const daten = await db.getAllGefuehle();
-    io.emit('update', daten); // Live-Update senden
-    res.json({ success: true });
-  } catch (err) {
-    console.error('Fehler beim Löschen:', err);
-    res.status(500).json({ success: false, error: err.message });
-  }
+  await db.clearAllGefuehle();
+  const daten = await db.getAllGefuehle();
+  io.emit('update', daten); // Live-Update senden
+  res.json({ success: true });
 });

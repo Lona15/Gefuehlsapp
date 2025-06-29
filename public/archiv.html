@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Archivansicht</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background-color: white;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Archivierte Gefühle</h1>
+  <button onclick="resetArchivDaten()" id="resetButton">Alle Einträge löschen</button>
+  <table id="archivTabelle">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Gefühl</th>
+        <th>Zeit</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+
+    function ladeArchivDaten() {
+      fetch('/archivdaten')
+        .then(res => res.json())
+        .then(daten => {
+          const tbody = document.querySelector('#archivTabelle tbody');
+          tbody.innerHTML = '';
+
+          daten.forEach(eintrag => {
+            const tr = document.createElement('tr');
+            const time = new Date(eintrag.timestamp + 'Z'); // 'Z' kennzeichnet UTC-Zeit
+
+            tr.innerHTML = `
+              <td>${eintrag.code}</td>
+              <td>${eintrag.gefuehl}</td>
+              <td>${time.toLocaleTimeString('de-DE', {
+                timeZone: 'Europe/Berlin',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        });
+    }
+
+    ladeArchivDaten();
+
+    function resetArchivDaten() {
+      if (confirm('Willst du wirklich alle Einträge löschen?')) {
+        fetch('/resetarchiv', {
+          method: 'DELETE',
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) 
+              ladeArchivDaten();
+            else {
+              alert('Fehler beim Löschen.');
+            }
+          });
+      }
+    }
+  </script>
+</body>
+</html>

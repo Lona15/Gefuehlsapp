@@ -3,6 +3,7 @@ const express = require('express');
 const http = require('http');
 const path = require('path');
 const socketIo = require('socket.io');
+const cron = require('node-cron');
 const db = require('./db');
 
 const app = express();
@@ -46,15 +47,42 @@ app.get('/data', async (req, res) => {
   res.json(daten);
 });
 
+// Archivdaten als JSON bereitstellen
+app.get('/archivdaten', async (req, res) => {
+  const daten = await db.getArchivDatenSortiert();
+  res.json(daten);
+});
+
+
 // Server starten
 server.listen(PORT, () => {
   console.log(`Server läuft auf http://localhost:${PORT}`);
 });
 
-// DELETE /reset – löscht alle Einträge
+// Täglich um 23:59 alle Tagesdaten löschen
+cron.schedule('59 23 * * *', async () => {
+  console.log('🧹 Tagesdaten werden gelöscht...');
+  await db.clearAllGefuehle();
+  const daten = await db.getAllGefuehle();
+  io.emit('update', daten); // Admin-Ansicht aktualisieren
+},{
+  timezone: 'Europe/Berlin' // explizite Zeitzone
+});
+
+
+// DELETE /reset – löscht alle Einträge Adminseite
 app.delete('/reset', async (req, res) => {
   await db.clearAllGefuehle();
   const daten = await db.getAllGefuehle();
+  io.emit('update', daten); // Live-Update senden
+  res.json({ success: true });
+});
+
+// DELETE /reset – löscht alle Einträge Archiv --> Funktioniert noch nicht
+app.delete('/resetarchiv', async (req, res) => {
+  await db.clearAllGefuehlearchiv();
+  const daten = await db.getArchivDatenSortiert();
+  console.log(daten)
   io.emit('update', daten); // Live-Update senden
   res.json({ success: true });
 });

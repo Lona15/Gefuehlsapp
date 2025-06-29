@@ -68,10 +68,12 @@ if (document.getElementById('liste')) {
         const istLetzter = letzterEintragProCode.get(eintrag.code) === eintrag;
         if (istLetzter) tr.classList.add('highlight');
     
+        const time = new Date(eintrag.timestamp + 'Z'); // 'Z' kennzeichnet UTC-Zeit
+
         tr.innerHTML = `
           <td>${eintrag.code}</td>
           <td>${eintrag.gefuehl}</td>
-          <td>${new Date(eintrag.timestamp).toLocaleTimeString('de-DE', {
+          <td>${time.toLocaleTimeString('de-DE', {
             timeZone: 'Europe/Berlin',
             hour: '2-digit',
             minute: '2-digit',
@@ -85,7 +87,7 @@ if (document.getElementById('liste')) {
       });
     }
     
-    // Einträge Löschen
+    // Einträge Löschen admin live
     function resetDaten() {
       if (confirm('Willst du wirklich alle Einträge löschen?')) {
         fetch('/reset', {

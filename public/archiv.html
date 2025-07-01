@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Archivansicht</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       font-family: sans-serif;
@@ -39,7 +40,6 @@
   </table>
 
   <script>
-
     function ladeArchivDaten() {
       fetch('/archivdaten')
         .then(res => res.json())
@@ -86,6 +86,144 @@
           });
       }
     }
+  </script>
+
+   <!-- Diagramm pro Kind -->
+  <h1> Diagramme</h1>
+  <div id="diagramme" style="display: flex; flex-wrap: wrap; gap: 20px;"></div>
+
+  <script src="chart.umd.min.js"></script>
+  <script>
+
+    function countGefuehle(array) {
+      const counts = {};
+      array.forEach(g => {
+        counts[g] = (counts[g] || 0) + 1;
+      });
+      return counts;
+    }
+
+    const container = document.getElementById('diagramme');
+
+    fetch('/archivdaten')
+      .then(res => res.json())
+      .then(daten => {
+
+        const groupedByCode = {};
+
+        daten.forEach(data => {
+          if (!groupedByCode[data.code]) {
+            groupedByCode[data.code] = [];
+          }
+          groupedByCode[data.code].push(data.gefuehl);
+        });
+
+        Object.entries(groupedByCode).forEach(([code, gefuehle], index) => {
+          const counts = countGefuehle(gefuehle);
+
+          const labels = Object.keys(counts);   // Gefühle
+          const data = Object.values(counts);   // Anzahl
+
+          // Create wrapper div
+          const chartWrapper = document.createElement('div');
+          chartWrapper.style.width = '300px';
+          chartWrapper.style.height = '300px';
+
+          // Create canvas
+          const canvas = document.createElement('canvas');
+          canvas.id = `chart_${index}`;
+          canvas.width = 300;
+          canvas.height = 300;
+
+          chartWrapper.appendChild(canvas);
+          container.appendChild(chartWrapper);
+
+
+          const ctx = canvas.getContext('2d');
+
+          // Create Chart
+          new Chart(ctx, {
+            type: 'doughnut', // or 'bar', 'pie'
+            data: {
+              labels: labels,
+              datasets: [{
+                label: `Gefühle von ${code}`,
+                data: data,
+                backgroundColor: [
+                  '#f94144', '#f3722c', '#f9c74f', '#90be6d', '#43aa8b',
+                  '#577590', '#277da1', '#6a4c93', '#ff6f91', '#ffd166'
+                ]
+              }]
+            },
+            options: {
+              plugins: {
+                title: {
+                  display: true,
+                  text: `Gefühle von ${code}`, // angezeigter Titel des Diagramms
+                  font: {
+                    size: 18
+                  }
+                },
+                legend: {
+                  position: 'top' // Position des Titels
+                }
+              }
+            }
+          });
+        });
+
+        
+      });
+
+
+    // if (document.getElementById('diagramme')) {
+    
+    //   const ctx = document.getElementById('diagramme');
+
+    //   function countGefuehle(array) {
+    //     const counts = {};
+    //     array.forEach(g => {
+    //       counts[g] = (counts[g] || 0) + 1;
+    //     });
+    //     return counts;
+    //   }
+
+    //     fetch('/archivdaten')
+    //       .then(res => res.json())
+    //       .then(daten => {
+
+    //         const groupedByCode = {};
+
+    //         daten.forEach(data => {
+    //           if (!groupedByCode[data.code]) {
+    //             groupedByCode[data.code] = [];
+    //           }
+    //           groupedByCode[data.code].push(data.gefuehl);
+    //         });
+
+    //         const counts = {};
+
+    //         daten.forEach(entry => {
+    //           const g = entry.gefuehl;
+    //           counts[g] = (counts[g] || 0) + 1;
+    //         });
+
+    //         const labels = Object.keys(counts);         // Gefühle
+    //         const data = Object.values(counts);         // Anzahl
+    //           new Chart(ctx, {
+    //             type: 'doughnut',
+    //             data: {
+    //               labels: labels,
+    //               datasets: [{
+    //                 label: '# of Votes',
+    //                 data: data,
+    //                 borderWidth: 1
+    //               }]
+    //             },
+    //           });
+    //       });
+      
+    // }
   </script>
 </body>
 </html>

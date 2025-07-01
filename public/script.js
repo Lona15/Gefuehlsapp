@@ -87,7 +87,7 @@ if (document.getElementById('liste')) {
       });
     }
     
-    // Einträge Löschen admin live
+    // Einträge Löschen Admin live
     function resetDaten() {
       if (confirm('Willst du wirklich alle Einträge löschen?')) {
         fetch('/reset', {

@@ -59,14 +59,14 @@ server.listen(PORT, () => {
   console.log(`Server läuft auf http://localhost:${PORT}`);
 });
 
-// Täglich um 23:59 alle Tagesdaten löschen
-cron.schedule('59 23 * * *', async () => {
+// Täglich um 00:00 alle Tagesdaten löschen
+cron.schedule('00 00 * * *', async () => {
   console.log('🧹 Tagesdaten werden gelöscht...');
   await db.clearAllGefuehle();
   const daten = await db.getAllGefuehle();
-  io.emit('update', daten); // Admin-Ansicht aktualisieren
+  io.emit('update', daten);                             // Admin-Ansicht aktualisieren
 },{
-  timezone: 'Europe/Berlin' // explizite Zeitzone
+  timezone: 'Europe/Berlin'                             // explizite Zeitzone
 });
 
 
@@ -78,7 +78,7 @@ app.delete('/reset', async (req, res) => {
   res.json({ success: true });
 });
 
-// DELETE /reset – löscht alle Einträge Archiv --> Funktioniert noch nicht
+// DELETE /reset – löscht alle Einträge Archiv 
 app.delete('/resetarchiv', async (req, res) => {
   await db.clearAllGefuehlearchiv();
   const daten = await db.getArchivDatenSortiert();

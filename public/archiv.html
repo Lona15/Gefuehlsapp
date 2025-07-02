@@ -47,8 +47,29 @@
           const tbody = document.querySelector('#archivTabelle tbody');
           tbody.innerHTML = '';
 
+          // Nur die letzten Einträge je Code
+          const letzterEintragProCode = new Map();
+          
+          console.log(daten, letzterEintragProCode)
+
+          daten.forEach((eintrag) => {
+            if (
+              !letzterEintragProCode.has(eintrag.code) ||
+              new Date(eintrag.timestamp) > new Date(letzterEintragProCode.get(eintrag.code).timestamp)
+            ) {
+              letzterEintragProCode.set(eintrag.code, eintrag);
+            }
+          });
+
+          
+          
           daten.forEach(eintrag => {
             const tr = document.createElement('tr');
+
+            // Prüfen ob es der neueste Eintrag für diesen Code ist
+            const istLetzter = letzterEintragProCode.get(eintrag.code) === eintrag;
+            if (istLetzter) tr.classList.add('highlight');
+
             const time = new Date(eintrag.timestamp + 'Z'); // 'Z' kennzeichnet UTC-Zeit
 
             tr.innerHTML = `
@@ -68,7 +89,7 @@
           });
         });
     }
-
+    
     ladeArchivDaten();
 
     function resetArchivDaten() {
@@ -175,55 +196,6 @@
         
       });
 
-
-    // if (document.getElementById('diagramme')) {
-    
-    //   const ctx = document.getElementById('diagramme');
-
-    //   function countGefuehle(array) {
-    //     const counts = {};
-    //     array.forEach(g => {
-    //       counts[g] = (counts[g] || 0) + 1;
-    //     });
-    //     return counts;
-    //   }
-
-    //     fetch('/archivdaten')
-    //       .then(res => res.json())
-    //       .then(daten => {
-
-    //         const groupedByCode = {};
-
-    //         daten.forEach(data => {
-    //           if (!groupedByCode[data.code]) {
-    //             groupedByCode[data.code] = [];
-    //           }
-    //           groupedByCode[data.code].push(data.gefuehl);
-    //         });
-
-    //         const counts = {};
-
-    //         daten.forEach(entry => {
-    //           const g = entry.gefuehl;
-    //           counts[g] = (counts[g] || 0) + 1;
-    //         });
-
-    //         const labels = Object.keys(counts);         // Gefühle
-    //         const data = Object.values(counts);         // Anzahl
-    //           new Chart(ctx, {
-    //             type: 'doughnut',
-    //             data: {
-    //               labels: labels,
-    //               datasets: [{
-    //                 label: '# of Votes',
-    //                 data: data,
-    //                 borderWidth: 1
-    //               }]
-    //             },
-    //           });
-    //       });
-      
-    // }
   </script>
 </body>
 </html>

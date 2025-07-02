@@ -63,11 +63,11 @@ if (document.getElementById('liste')) {
     
       daten.forEach((eintrag) => {
         const tr = document.createElement('tr');
-    
+        
         // Prüfen ob es der neueste Eintrag für diesen Code ist
         const istLetzter = letzterEintragProCode.get(eintrag.code) === eintrag;
         if (istLetzter) tr.classList.add('highlight');
-    
+        
         const time = new Date(eintrag.timestamp + 'Z'); // 'Z' kennzeichnet UTC-Zeit
 
         tr.innerHTML = `
@@ -112,4 +112,4 @@ if (document.getElementById('liste')) {
       zeigeDaten(daten);
     });
   }
-  
+

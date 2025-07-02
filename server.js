@@ -59,8 +59,8 @@ server.listen(PORT, () => {
   console.log(`Server läuft auf http://localhost:${PORT}`);
 });
 
-// Täglich um 00:00 alle Tagesdaten löschen
-cron.schedule('00 00 * * *', async () => {
+// Täglich um 23:59 alle Tagesdaten löschen
+cron.schedule('59 23 * * *', async () => {
   console.log('🧹 Tagesdaten werden gelöscht...');
   await db.clearAllGefuehle();
   const daten = await db.getAllGefuehle();

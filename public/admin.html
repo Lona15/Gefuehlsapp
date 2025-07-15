@@ -26,20 +26,31 @@
   </style>
 </head>
 <body>
+  <a href="archiv.html" class="button">Archiv</a>
+  <a href="index.html" class="button">Kinderseite</a>
   <h1>Gefühlsübersicht (live)</h1>
-  <button onclick="resetDaten()" id="resetButton">Alle Einträge löschen</button>
+  <button onclick="resetDaten()" id="resetButton" class="tooltip">
+    🗑️
+    <span class="tooltiptext">Alle Einträge löschen</span>
+
+  </button>
   <table>
     <thead>
       <tr>
         <th>Code</th>
         <th>Gefühl</th>
         <th>Zeit</th>
+        <th>Sprechbedarf</th>
       </tr>
     </thead>
     <tbody id="liste"></tbody>
+
+    
   </table>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
+
+

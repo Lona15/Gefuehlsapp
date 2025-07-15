@@ -1,13 +1,14 @@
 [
-    { "id": "gluecklich", "text": "Glücklich", "bild": "😊" },
-    { "id": "traurig", "text": "Traurig", "bild": "😢" },
-    { "id": "wütend", "text": "Wütend", "bild": "😠" },
-    { "id": "ängstlich", "text": "Ängstlich", "bild": "😨" },
-    { "id": "müde", "text": "Müde", "bild": "😴" },
-    { "id": "aufgeregt", "text": "Aufgeregt", "bild": "🤩" },
-    { "id": "gelangweilt", "text": "Gelangweilt", "bild": "🥱" },
-    { "id": "ruhig", "text": "Ruhig", "bild": "😌" },
-    { "id": "konzentriert", "text": "Konzentriert", "bild": "🤓" },
-    { "id": "krank", "text": "Krank", "bild": "🤒" }
+    { "id": "gluecklich", "text": "Glücklich", "bild": "😊", "color":"green" },
+    { "id": "traurig", "text": "Traurig", "bild": "😢", "color":"black" },
+    { "id": "wütend", "text": "Wütend", "bild": "😠", "color":"red" },
+    { "id": "ängstlich", "text": "Ängstlich", "bild": "😨", "color":"orange" },
+    { "id": "müde", "text": "Müde", "bild": "😴", "color":"blue" },
+    { "id": "aufgeregt", "text": "Aufgeregt", "bild": "🤩", "color":"lightorange" },
+    { "id": "gelangweilt", "text": "Gelangweilt", "bild": "🥱", "color":"lightgrey" },
+    { "id": "ruhig", "text": "Ruhig", "bild": "😌", "color":"lightblue" },
+    { "id": "konzentriert", "text": "Konzentriert", "bild": "🤓", "color":"yellow" },
+    { "id": "krank", "text": "Krank", "bild": "🤒", "color":"purple" },
+    { "id": "unkonzentriert", "text": "Unkonzentriert", "bild": "🤯", "color":"darkyellow" }
   ]
   

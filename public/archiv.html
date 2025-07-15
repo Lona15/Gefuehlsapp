@@ -26,8 +26,13 @@
   </style>
 </head>
 <body>
+  <a href="admin.html" class="button">Admin</a>
+  <a href="index.html" class="button">Kinderseite</a>
   <h1>Archivierte Gefühle</h1>
-  <button onclick="resetArchivDaten()" id="resetButton">Alle Einträge löschen</button>
+  <button onclick="resetArchivDaten()" id="resetButton"  class="tooltip">
+    🗑️
+    <span class="tooltiptext">Alle Einträge löschen</span>
+  </button>
   <table id="archivTabelle">
     <thead>
       <tr>
@@ -128,7 +133,7 @@
 
     fetch('/archivdaten')
       .then(res => res.json())
-      .then(daten => {
+      .then(async daten => {
 
         const groupedByCode = {};
 
@@ -139,11 +144,20 @@
           groupedByCode[data.code].push(data.gefuehl);
         });
 
+        const gefuehle_all = await fetch('/gefuehle.json').then(res => res.json())
+
         Object.entries(groupedByCode).forEach(([code, gefuehle], index) => {
           const counts = countGefuehle(gefuehle);
 
           const labels = Object.keys(counts);   // Gefühle
           const data = Object.values(counts);   // Anzahl
+
+          // Sucht für jedes Gefühl aus der Datenbank die Farbe aus der gefuehle.json Zeile
+          const colors = labels.map(gefuehl => {
+            const found = gefuehle_all.find(value => value.id == gefuehl) // value ist immer eine Zeile aus gefuehle.json
+            return found.color
+          });
+
 
           // Create wrapper div
           const chartWrapper = document.createElement('div');
@@ -170,10 +184,7 @@
               datasets: [{
                 label: `Gefühle von ${code}`,
                 data: data,
-                backgroundColor: [
-                  '#f94144', '#f3722c', '#f9c74f', '#90be6d', '#43aa8b',
-                  '#577590', '#277da1', '#6a4c93', '#ff6f91', '#ffd166'
-                ]
+                backgroundColor: colors
               }]
             },
             options: {
@@ -199,3 +210,6 @@
   </script>
 </body>
 </html>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="script.js"></script>

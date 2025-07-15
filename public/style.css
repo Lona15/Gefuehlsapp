@@ -10,3 +10,77 @@ body.kinderseite {
     background-color: #fadffa;  /* rosa Hintergrund */
     font-weight: bold;
   }
+
+  #resetButton {
+    font-size: 1.0rem;
+    padding: 0.9rem 0.9rem;
+    background-color: rgb(250, 246, 246);
+    color: white;
+    border: 2px solid #cacaca;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  #resetButton:hover {
+    background-color: #666;
+  }
+
+  .button {
+    font-size: 1.3rem;
+    padding: 0.3rem 1.5rem;
+    background-color: rgb(182, 181, 181);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+  }
+
+  .button:hover {
+    background-color: #666;
+  }
+
+  /* Container für Tooltip */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Versteckter Tooltip-Text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* über dem Button */
+  left: 50%;
+  margin-left: -80px; /* Hälfte der Breite */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Pfeil unter Tooltip */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* am unteren Rand des Tooltip-Textes */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Tooltip anzeigen beim Hover */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

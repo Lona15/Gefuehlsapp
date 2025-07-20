@@ -1,14 +1,14 @@
 [
-    { "id": "gluecklich", "text": "Glücklich", "bild": "😊", "color":"green" },
-    { "id": "traurig", "text": "Traurig", "bild": "😢", "color":"black" },
-    { "id": "wütend", "text": "Wütend", "bild": "😠", "color":"red" },
-    { "id": "ängstlich", "text": "Ängstlich", "bild": "😨", "color":"orange" },
-    { "id": "müde", "text": "Müde", "bild": "😴", "color":"blue" },
-    { "id": "aufgeregt", "text": "Aufgeregt", "bild": "🤩", "color":"lightorange" },
-    { "id": "gelangweilt", "text": "Gelangweilt", "bild": "🥱", "color":"lightgrey" },
-    { "id": "ruhig", "text": "Ruhig", "bild": "😌", "color":"lightblue" },
-    { "id": "konzentriert", "text": "Konzentriert", "bild": "🤓", "color":"yellow" },
-    { "id": "krank", "text": "Krank", "bild": "🤒", "color":"purple" },
-    { "id": "unkonzentriert", "text": "Unkonzentriert", "bild": "🤯", "color":"darkyellow" }
+    { "id": "gluecklich", "text": "Glücklich", "bild": "😊", "color":"#C1FFC1" },
+    { "id": "traurig", "text": "Traurig", "bild": "😢", "color":"#97FFFF" },
+    { "id": "wütend", "text": "Wütend", "bild": "😠", "color":"#FF6A6A" },
+    { "id": "ängstlich", "text": "Ängstlich", "bild": "😨", "color":"#C6E2FF" },
+    { "id": "müde", "text": "Müde", "bild": "😴", "color":"#CD9B9B" },
+    { "id": "aufgeregt", "text": "Aufgeregt", "bild": "🤩", "color":"#E9967A" },
+    { "id": "gelangweilt", "text": "Gelangweilt", "bild": "🥱", "color":"#FFEC8B" },
+    { "id": "ruhig", "text": "Ruhig", "bild": "😌", "color":"#79CDCD" },
+    { "id": "konzentriert", "text": "Konzentriert", "bild": "🤓", "color":"#8FBC8F" },
+    { "id": "krank", "text": "Krank", "bild": "🤒", "color":"#C5AEE3" },
+    { "id": "unkonzentriert", "text": "Unkonzentriert", "bild": "🤯", "color":"#FFC1C1" }
   ]
   

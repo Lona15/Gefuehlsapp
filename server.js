@@ -41,6 +41,23 @@ app.post('/submit', async (req, res) => {
   res.json({ success: true });
 });
 
+// POST /submit – Wenn ein Kind sein Gefühl abschickt
+app.post('/update', async (req, res) => {
+  const { code, willReden } = req.body;
+
+  // Großschreibung vereinheitlichen
+  const upperCode = code.toUpperCase();
+
+  // Prüfen, ob der Code gültig ist
+  if (!validCodes.includes(upperCode)) {
+    return res.status(400).json({ error: 'Ungültiger Code' });
+  }
+
+  await db.updateGefuehl(upperCode, willReden);
+
+  res.json({ success: true });
+});
+
 // GET /data – Admin ruft aktuelle Daten ab
 app.get('/data', async (req, res) => {
   const daten = await db.getAllGefuehle();

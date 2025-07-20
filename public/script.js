@@ -28,12 +28,35 @@ if (document.getElementById('gefuehlListe')) {
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
-            alert('Danke! Dein Gefühl wurde gesendet.');
+            var popup = document.getElementById("popup"); // Popup laden
+            popup.style.display = "block";
+
           } else {
             alert('Fehler beim senden. Überprüfe deinen Code.');
           }
         });
     }
+
+    function handleReden(willReden) {
+      const code = document.getElementById('code').value.trim();
+
+      fetch('/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, willReden }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            var popup = document.getElementById("popup");
+            popup.style.display = "none";
+
+          } else {
+            alert('Fehler beim senden. Wende dich an Frau Schreiber.');
+          }
+        });
+    } 
+
   }
   // Für Admin-Ansicht
 if (document.getElementById('liste')) {
@@ -46,6 +69,9 @@ if (document.getElementById('liste')) {
     }
   
     function zeigeDaten(daten) {
+
+      console.log(daten)
+
       const tabelle = document.getElementById('liste');
       tabelle.innerHTML = '';
     
@@ -82,6 +108,7 @@ if (document.getElementById('liste')) {
             month: '2-digit',
             year: 'numeric',
           })}</td>
+          <td>${eintrag.reden ? "Ja" : "Nein"}</td>
         `;
         tabelle.appendChild(tr);
       });

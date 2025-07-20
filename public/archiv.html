@@ -39,6 +39,7 @@
         <th>Code</th>
         <th>Gefühl</th>
         <th>Zeit</th>
+        <th>Redebedarf</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -66,8 +67,6 @@
             }
           });
 
-          
-          
           daten.forEach(eintrag => {
             const tr = document.createElement('tr');
 
@@ -89,6 +88,7 @@
                 month: '2-digit',
                 year: 'numeric',
               })}</td>
+              <td>${eintrag.reden ? "Ja" : "Nein"}</td>
             `;
             tbody.appendChild(tr);
           });

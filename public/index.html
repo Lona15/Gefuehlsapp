@@ -52,6 +52,20 @@
   <input type="text" id="code" required placeholder="Bitte gib deinen Code ein" />
   <h2>Wähle dein Gefühl:</h2>
   <div class="gefuehl-liste" id="gefuehlListe"></div>
+
+  <!-- Popup -->
+  <div id="popup">
+    <div class="popup-content">
+        <h3>Danke! Dein Gefühl wurde gesendet.</h3>
+        <p>Willst du darüber reden?</p>
+        <div class="buttons">
+          <button onclick="handleReden(true)">✅ Ja</button>
+          <button onclick="handleReden(false)">❌ Nein</button>
+        </div>
+    </div>
+  </div>
+
+
   <script src="script.js"></script>
 </body>
 

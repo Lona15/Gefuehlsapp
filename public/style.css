@@ -6,6 +6,10 @@ body.kinderseite {
   background-color: #e0f0ff; /* hellblauer Hintergrund Kinderseite*/
 }
 
+h1 {
+  text-align: center;
+}
+
 .highlight {
     background-color: #fadffa;  /* rosa Hintergrund */
     font-weight: bold;

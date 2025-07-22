@@ -133,6 +133,19 @@ if (document.getElementById('liste')) {
 
     // Beim ersten Laden: aktuelle Daten holen
     ladeDaten();
+
+    // Filter einmal aktivieren
+      const suchfeld = document.getElementById("suchfeld");
+      suchfeld.addEventListener("input", function () {
+        const filter = this.value.toLowerCase();
+        const zeilen = document.querySelectorAll("#liste tbody tr");
+
+        zeilen.forEach(zeile => {
+          const text = zeile.textContent.toLowerCase();
+          zeile.style.display = text.includes(filter) ? "" : "none";
+        });
+      });
+
   
     // Wenn neue Daten per WebSocket kommen: aktualisieren
     socket.on('update', (daten) => {

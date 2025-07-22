@@ -84,7 +84,7 @@ function getAllGefuehle() {
     const sql = `
       SELECT code, gefuehl, timestamp, reden
       FROM gefuehle
-      ORDER BY timestamp DESC
+      ORDER BY code ASC, timestamp DESC
     `;
 
     db.all(sql, [], (err, rows) => {

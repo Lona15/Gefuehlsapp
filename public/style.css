@@ -1,50 +1,77 @@
 body {
   background-color: white; /* Standard für Adminseite */
-}
-
-body.kinderseite {
-  background-color: #e0f0ff; /* hellblauer Hintergrund Kinderseite*/
+  font-family: sans-serif;
+  padding: 2rem;
 }
 
 h1 {
   text-align: center;
 }
 
+/* *************************** */
+/* Admin und Archiv Styling */
+/* *************************** */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: center;
+}
+th {
+  background-color: #f0f0f0;
+}
+
 .highlight {
-    background-color: #fadffa;  /* rosa Hintergrund */
-    font-weight: bold;
-  }
+  background-color: #fadffa;  /* rosa Hintergrund */
+  font-weight: bold;
+}
 
-  #resetButton {
-    font-size: 1.0rem;
-    padding: 0.9rem 0.9rem;
-    background-color: rgb(250, 246, 246);
-    color: white;
-    border: 2px solid #cacaca;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
+#suchfeld {
+  margin: 2%;
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  background-color: rgba(250, 246, 246, 0.854);
+}
 
-  #resetButton:hover {
-    background-color: #666;
-  }
+#resetButton {
+  font-size: 1.0rem;
+  padding: 0.9rem 0.9rem;
+  background-color: rgb(250, 246, 246);
+  color: white;
+  border: 2px solid #cacaca;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-  .button {
-    font-size: 1.3rem;
-    padding: 0.3rem 1.5rem;
-    background-color: rgb(182, 181, 181);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    text-decoration: none;
-  }
+#resetButton:hover {
+  background-color: #666;
+}
 
-  .button:hover {
-    background-color: #666;
-  }
+.button {
+  font-size: 1.3rem;
+  padding: 0.3rem 1.5rem;
+  background-color: rgb(182, 181, 181);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #666;
+}
 
   /* Container für Tooltip */
 .tooltip {
@@ -88,6 +115,52 @@ h1 {
   visibility: visible;
   opacity: 1;
 }
+
+/* *************************** */
+/* Gefühle Kinderseite Styling */
+/* *************************** */
+
+
+body.kinderseite {
+  background-color: #e0f0ff; /* hellblauer Hintergrund Kinderseite*/
+  text-align: center;
+}
+
+.gefuehl-liste {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.gefuehl {
+  border: 2px solid #cacaca;
+  border-radius: 10px;
+  padding: 1rem;       
+  width: 150px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.gefuehl:hover {
+  background: #f0f0f0;
+  transform: scale(1.05);
+}
+
+#code {
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
+
+
+/* *************************** */
+/* Popup Redebedarf */
+/* *************************** */
 
 #popup {
   display: none; /* Standardmäßig ausgeblendet */

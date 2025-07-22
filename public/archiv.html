@@ -4,26 +4,6 @@
   <meta charset="UTF-8" />
   <title>Archivansicht</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-      background-color: white;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 0.5rem;
-      text-align: center;
-    }
-    th {
-      background-color: #f0f0f0;
-    }
-  </style>
 </head>
 <body>
   <a href="admin.html" class="button">Admin</a>
@@ -33,6 +13,8 @@
     🗑️
     <span class="tooltiptext">Alle Einträge löschen</span>
   </button>
+  <input type="text" id="suchfeld" placeholder="Tabelle filtern...">
+
   <table id="archivTabelle">
     <thead>
       <tr>
@@ -56,8 +38,6 @@
           // Nur die letzten Einträge je Code
           const letzterEintragProCode = new Map();
           
-          console.log(daten, letzterEintragProCode)
-
           daten.forEach((eintrag) => {
             if (
               !letzterEintragProCode.has(eintrag.code) ||
@@ -96,6 +76,18 @@
     }
     
     ladeArchivDaten();
+
+    // Filter einmal aktivieren
+    const suchfeld = document.getElementById("suchfeld");
+      suchfeld.addEventListener("input", function () {
+        const filter = this.value.toLowerCase();
+        const zeilen = document.querySelectorAll("#archivTabelle tbody tr");
+
+        zeilen.forEach(zeile => {
+          const text = zeile.textContent.toLowerCase();
+          zeile.style.display = text.includes(filter) ? "" : "none";
+        });
+      });
 
     function resetArchivDaten() {
       if (confirm('Willst du wirklich alle Einträge löschen?')) {
@@ -161,6 +153,7 @@
 
           // Create wrapper div
           const chartWrapper = document.createElement('div');
+          chartWrapper.id = code; 
           chartWrapper.style.width = '300px';
           chartWrapper.style.height = '300px';
 
@@ -213,3 +206,24 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="script.js"></script>
+
+ <!-- 🔧 Filter-Funktion -->
+ <script>
+  document.getElementById("suchfeld").addEventListener("input", function () {
+    const filter = this.value.toLowerCase();
+    const zeilen = document.querySelectorAll("#liste tr");
+
+    zeilen.forEach(zeile => {
+      const text = zeile.textContent.toLowerCase();
+      zeile.style.display = text.includes(filter) ? "" : "none";
+    });
+
+    const diagrammWrapper = document.getElementById("diagramme")
+    const diagramme = diagrammWrapper.querySelectorAll('div');
+
+    diagramme.forEach(diagramm => {
+      const id = diagramm.id.toLowerCase();
+      diagramm.style.display = id.includes(filter) ? "" : "none";
+    });
+  });
+</script>

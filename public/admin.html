@@ -5,25 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gefühlsübersicht</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-    }
-    h1 {
-      text-align: center;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 2rem;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 0.5rem;
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
   <a href="archiv.html" class="button">Archiv</a>
@@ -32,8 +13,11 @@
   <button onclick="resetDaten()" id="resetButton" class="tooltip">
     🗑️
     <span class="tooltiptext">Alle Einträge löschen</span>
-
   </button>
+  <input type="text" id="suchfeld" placeholder="Tabelle filtern...">
+
+  
+
   <table>
     <thead>
       <tr>
@@ -44,12 +28,25 @@
       </tr>
     </thead>
     <tbody id="liste"></tbody>
-
-    
   </table>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
+
+
+ <!-- 🔧 Filter-Funktion -->
+ <script>
+  document.getElementById("suchfeld").addEventListener("input", function () {
+    const filter = this.value.toLowerCase();
+    const zeilen = document.querySelectorAll("#liste tr");
+
+    zeilen.forEach(zeile => {
+      const text = zeile.textContent.toLowerCase();
+      zeile.style.display = text.includes(filter) ? "" : "none";
+    });
+  });
+</script>
+
 </body>
 </html>
 

@@ -116,6 +116,10 @@ th {
   opacity: 1;
 }
 
+#diagramme {
+  justify-content: center;;
+}
+
 /* *************************** */
 /* Gefühle Kinderseite Styling */
 /* *************************** */

@@ -16,8 +16,6 @@
   </button>
   <input type="text" id="suchfeld" placeholder="Tabelle filtern...">
 
-  
-
   <table>
     <thead>
       <tr>
@@ -31,21 +29,7 @@
   </table>
 
   <script src="/socket.io/socket.io.js"></script>
-  <script src="script.js"></script>
-
-
- <!-- 🔧 Filter-Funktion -->
- <script>
-  document.getElementById("suchfeld").addEventListener("input", function () {
-    const filter = this.value.toLowerCase();
-    const zeilen = document.querySelectorAll("#liste tr");
-
-    zeilen.forEach(zeile => {
-      const text = zeile.textContent.toLowerCase();
-      zeile.style.display = text.includes(filter) ? "" : "none";
-    });
-  });
-</script>
+  <script src="js/admin.js"></script>
 
 </body>
 </html>

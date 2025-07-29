@@ -4,7 +4,7 @@ const path = require('path');
 const dbPath = path.join(__dirname, 'gefuehlsdaten.db');
 const db = new sqlite3.Database(dbPath);
 
-// Tabelle erstellen, falls sie noch nicht existiert - NEU: Archiv-Tabelle
+// Tabelle erstellen, falls sie noch nicht existiert - Admin- und Archiv-Tabelle
 db.serialize(() => {
   // db.run(`DROP TABLE IF EXISTS gefuehle`);
   // db.run(`DROP TABLE IF EXISTS archiv_gefuehle`);

@@ -95,6 +95,7 @@ app.delete('/reset', async (req, res) => {
   res.json({ success: true });
 });
 
+
 // DELETE /reset – löscht alle Einträge Archiv 
 app.delete('/resetarchiv', async (req, res) => {
   await db.clearAllGefuehlearchiv();

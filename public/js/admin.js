@@ -8,8 +8,6 @@ function ladeDaten() {
 
 function zeigeDaten(daten) {
 
-    console.log(daten)
-
     const tabelle = document.getElementById('liste');
     tabelle.innerHTML = '';
 

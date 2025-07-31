@@ -58,6 +58,10 @@ function saveGefuehl(code, gefuehl) {
 function updateGefuehl(code, willReden) {
   return new Promise((resolve, reject) => {
     // Gefühl zuerst in Live Tabelle speichern
+    // UPDATE gefuehle SET reden = ? WHERE id = XYZ - Update eines Datenbank Eintrags 
+    // SELECT id FROM gefuehle WHERE code = ? ORDER BY timestamp DESC LIMIT 1
+    // Laden der id in der Tabelle Gefühle die den gleichen code haben, absteigend soritert nach datum und nur das erste
+
     db.run(
       'UPDATE gefuehle SET reden = ? WHERE id = (SELECT id FROM gefuehle WHERE code = ? ORDER BY timestamp DESC LIMIT 1);',
       [willReden, code],

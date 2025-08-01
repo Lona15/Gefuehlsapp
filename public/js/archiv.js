@@ -176,8 +176,7 @@ document.getElementById("suchfeld").addEventListener("input", function () {
       zeile.style.display = text.includes(filter) ? "" : "none";
     });
 
-    const diagrammWrapper = document.getElementById("diagramme")
-    const diagramme = diagrammWrapper.querySelectorAll('div');
+    const diagramme = document.querySelectorAll('#diagramme div');
 
     diagramme.forEach(diagramm => {
       const id = diagramm.id.toLowerCase();
